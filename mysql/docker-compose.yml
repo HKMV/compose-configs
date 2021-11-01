@@ -1,0 +1,21 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:5.7 
+    hostname: mysql
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - "13306:3306"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./data/conf/:/etc/mysql/conf.d
+      - ./data/logs/:/logs/
+      - ./data/database/:/var/lib/mysql
+    deploy: #限制资源占用
+      resources:
+        limits:
+          cpus: '1'
+          memory: 200M

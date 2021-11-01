@@ -1,0 +1,19 @@
+version: "3"
+services:
+ pgsql:
+    image: postgres
+    hostname: postgres
+    container_name: postgres
+    environment:
+      PGSQL_DATABASE: test_datebase
+      PGSQL_USER: pgadmin
+      PGSQL_PASSWORD: pgadmin:
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./database:/var/lib/postgresql/data"      #初始化数据库
+    deploy: #限制资源占用
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 100M

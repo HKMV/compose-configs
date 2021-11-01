@@ -1,0 +1,8 @@
+version: "3"
+services:
+  viper:
+    image: registry.cn-shenzhen.aliyuncs.com/toys/viper:latest
+    container_name: viper-container
+    network_mode: "host"
+    restart: always
+    command: ["123456"]

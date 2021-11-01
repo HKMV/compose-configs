@@ -1,0 +1,82 @@
+version: "3.7"
+services:
+  site-registry:
+    image: registry
+    container_name: site-registry
+    hostname: site-registry
+    #restart: always
+    #ports:
+    #  - "5000:5000"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./data/registry:/var/lib/registry
+      - ./data/registry/config.yml:/etc/docker/registry/config.yml:ro
+    deploy: #限制资源占用
+      resources:
+        limits:
+          cpus: '1'
+          memory: 200M
+
+  docker-registry-ui:
+    image: joxit/docker-registry-ui
+    container_name: docker-registry-ui
+    hostname: docker-registry-ui
+    ports:
+      - 5000:80
+    environment:
+      - REGISTRY_TITLE=My Private Docker Registry
+      #- REGISTRY_URL=http://localhost:5000 #http://hub.home880.codeslife.top:880/  #http://site-registry:5000
+      - NGINX_PROXY_PASS_URL=http://site-registry:5000
+      - SINGLE_REGISTRY=true
+      #- DELETE_IMAGES=true
+    depends_on:
+      - site-registry
+    deploy: #限制资源占用
+      resources:
+        limits:
+          cpus: '1'
+          memory: 200M
+
+  #site-registry-ui:
+  #  image: stevbev/docker-registry-ui #jc21/registry-ui
+  #  container_name: site-registry-ui
+  #  hostname: site-registry-ui
+  #  #restart: on-failure #always
+  #  ports:
+  #    - "5002:8000"
+  #  #environment:
+  #  #  - REGISTRY_HOST=127.0.0.1:5000
+  #  #  - REGISTRY_SSL=true
+  #  #  - REGISTRY_DOMAIN=127.0.0.1:5000
+  #  #  - REGISTRY_STORAGE_DELETE_ENABLED=
+  #  volumes:
+  #    - /etc/localtime:/etc/localtime:ro
+  #    - ./data/registry-ui/config.yml:/opt/config.yml:ro
+  #    - ./data/registry-ui/data:/opt/data
+  #  deploy: #限制资源占用
+  #    resources:
+  #      limits:
+  #        cpus: '1'
+  #        memory: 200M
+
+#   site-registry-ui:
+#     image: jc21/registry-ui
+#     container_name: site-registry-ui
+#     hostname: site-registry-ui
+#     restart: on-failure  #always
+#     ports:
+#       - "5001:80"
+#     environment:
+#      - REGISTRY_HOST=site-registry:5000
+#      - REGISTRY_SSL=false #true
+#      - REGISTRY_DOMAIN=site-registry:5000
+#      - REGISTRY_STORAGE_DELETE_ENABLED=
+#     volumes:
+#       - /etc/localtime:/etc/localtime:ro
+#     #   - ./data/registry-ui/config.yml:/opt/config.yml:ro
+#     #   - ./data/registry-ui/data:/opt/data
+#     deploy: #限制资源占用
+#       resources:
+#         limits:
+#           cpus: '1'
+#           memory: 200M

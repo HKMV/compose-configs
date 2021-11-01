@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  home-assistant:
+    image: homeassistant/home-assistant:dev
+    container_name: home-assistant
+    hostname: home-assistant
+    #restart: unless-stopped #always
+    ports:
+      - "8123:8123"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./config:/config
+    #privileged: true #container内的root拥有真正的root权限。否则,container内的root只是外部的一个普通用户权限
+    #network_mode: host #主机模式
+    deploy: #限制资源占用
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 200M

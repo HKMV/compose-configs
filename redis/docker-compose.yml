@@ -1,0 +1,17 @@
+ version: "3"
+services:
+  redis:
+    image: redis
+    hostname: redis
+    container_name: redis
+    volumes:
+      - "./data:/data"
+      - "./conf/redis.conf:/etc/redis/redis.conf"
+    command: redis-server /etc/redis/redis.conf
+    ports:
+      - "6379:6379"
+    deploy: #限制资源占用
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 100M

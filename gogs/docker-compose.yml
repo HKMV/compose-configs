@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  gogs:
+    image: robertbeal/gogs  #autarchprinceps/gogs-arm64  # gogs/gogs
+    container_name: gogs
+    hostname: gogs
+    #restart: always
+    #build: #需要构建的Dockerfile文件
+    # context: ./
+    #environment:
+    #  UID: 0
+    #  GID: 0
+    ports:
+      #- "10022:22"
+      - "10022:22222"
+      - "10080:3000"
+    volumes:
+      #- /etc/passwd:/etc/passwd:ro 
+      - /etc/localtime:/etc/localtime:ro
+      - ./data/conf:/config #:ro
+      - ./data/gogs-data:/data
+      #- ./data/s6:/var/run/s6
+    deploy: #限制资源占用
+      resources:
+        limits:
+          cpus: '1'
+          memory: 200M
