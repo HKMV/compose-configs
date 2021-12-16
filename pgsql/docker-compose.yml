@@ -7,7 +7,7 @@ services:
     environment:
       PGSQL_DATABASE: test_datebase
       PGSQL_USER: pgadmin
-      PGSQL_PASSWORD: pgadmin:
+      PGSQL_PASSWORD: pgadmin
     ports:
       - "5432:5432"
     volumes:

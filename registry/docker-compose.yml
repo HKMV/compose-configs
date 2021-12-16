@@ -9,8 +9,8 @@ services:
     #  - "5000:5000"
     volumes:
       - /etc/localtime:/etc/localtime:ro
+      - ./data/config.yml:/etc/docker/registry/config.yml:ro
       - ./data/registry:/var/lib/registry
-      - ./data/registry/config.yml:/etc/docker/registry/config.yml:ro
     deploy: #限制资源占用
       resources:
         limits:

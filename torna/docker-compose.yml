@@ -1,0 +1,17 @@
+version: "3.7"
+services:
+  torna:
+    image: tanghc2020/torna:latest
+    hostname: torna
+    container_name: torna
+    # restart: always
+    ports:
+      - "7700:7700"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./config/:/torna/config
+    deploy: #限制资源占用
+      resources:
+        limits:
+          cpus: '1'
+          memory: 600M

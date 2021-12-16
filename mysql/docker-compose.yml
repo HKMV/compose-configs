@@ -6,7 +6,9 @@ services:
     container_name: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_HOST: '%'  #远程访问 MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: 123456 #root用户的登录密码
+      MYSQL_DATABASE: database #数据库名称
     ports:
       - "13306:3306"
     volumes:
@@ -14,6 +16,8 @@ services:
       - ./data/conf/:/etc/mysql/conf.d
       - ./data/logs/:/logs/
       - ./data/database/:/var/lib/mysql
+      #数据库还原目录 可将需要还原的sql文件放在这里
+      - ./data/reducing:/docker-entrypoint-initdb.d
     deploy: #限制资源占用
       resources:
         limits:
